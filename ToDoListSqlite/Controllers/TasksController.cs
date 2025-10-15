@@ -19,6 +19,8 @@ namespace ToDoListSqlite.Controllers
             _context = context;
         }
 
+        
+
         [HttpPost]
         public IActionResult Create([FromBody] Tasks task)
         {
@@ -41,7 +43,10 @@ namespace ToDoListSqlite.Controllers
         {
             try
             {
-                List<Tasks>  tasks = await _context.Tasks.ToListAsync();
+                List<Tasks>  tasks = await _context.Tasks.
+                                                Include(t => t.Categoria)
+                                                .ToListAsync();
+
                 return Ok(tasks);
             }
             catch
