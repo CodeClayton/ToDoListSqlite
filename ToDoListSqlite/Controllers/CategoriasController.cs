@@ -75,5 +75,30 @@ namespace ToDoListSqlite.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPut]
+        async public Task<IActionResult> Update(Categorias cat)
+        {
+            try
+            {
+                Categorias? c = await _context.Categorias
+                    // PARA NAO BLOQUEAR DE ATUALIZAR DPS
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(c => c.IdCategoria == cat.IdCategoria);
+                if(c != null)
+                {
+                    _context.Categorias.Update(cat);
+                    await _context.SaveChangesAsync();
+                    return Ok(c);
+                }else
+                {
+                    return BadRequest();
+                }
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
