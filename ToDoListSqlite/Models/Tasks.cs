@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ToDoListSqlite.Models
 {
@@ -19,6 +20,7 @@ namespace ToDoListSqlite.Models
         [Column("IdCategoria")]
         [ForeignKey("Categoria")]
         public int IdCategoria { get; set; }
+        
         public Categorias? Categoria { get; set; }
 
 
