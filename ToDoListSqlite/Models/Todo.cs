@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace ToDoListSqlite.Models
 {
-    public class Tasks
+    public class Todo
     {
         [Key]
         [Column("Id")]

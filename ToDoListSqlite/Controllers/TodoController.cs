@@ -9,18 +9,18 @@ namespace ToDoListSqlite.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TasksController : Controller
+    public class TodoController : Controller
         
     {
 
         //Instacia o dbcontext pra executar os bgl
         private readonly AppDbContext _context;
-        public TasksController(AppDbContext context)
+        public TodoController(AppDbContext context)
         {
             _context = context;
         }
 
-        public class DtoTask 
+        public class Dtotodo 
         {
             public int Id { get; set; }
             public string Name { get; set; } = string.Empty;
@@ -32,23 +32,23 @@ namespace ToDoListSqlite.Controllers
         
 
         [HttpPost]
-        public IActionResult Create([FromBody] DtoTask task)
+        public IActionResult Create([FromBody] Dtotodo todo)
         {
-            //Console.WriteLine(task);
+            //Console.WriteLine(todo);
             try
             {
 
-                Tasks newTask = new Tasks
+                Todo newtodo = new Todo
                 {
-                    Name = task.Name,
-                    Description = task.Description,
-                    IsComplete = task.IsComplete,
-                    IdCategoria = task.IdCategoria
+                    Name = todo.Name,
+                    Description = todo.Description,
+                    IsComplete = todo.IsComplete,
+                    IdCategoria = todo.IdCategoria
                 };
 
-                _context.Add(newTask);
+                _context.Add(newtodo);
                 _context.SaveChanges();
-                return Ok(task);
+                return Ok(todo);
             }
             catch 
             {
@@ -62,11 +62,11 @@ namespace ToDoListSqlite.Controllers
         {
             try
             {
-                List<Tasks>  tasks = await _context.Tasks.
+                List<Todo>  Todo = await _context.Todo.
                                                 Include(t => t.Categoria)
                                                 .ToListAsync();
 
-                return Ok(tasks);
+                return Ok(Todo);
             }
             catch
             {
@@ -75,29 +75,29 @@ namespace ToDoListSqlite.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update ([FromBody] DtoTask task)
+        public async Task<IActionResult> Update ([FromBody] Dtotodo todo)
         {
             try
             {
-                var t = await  _context.Tasks.
+                var t = await  _context.Todo.
                     AsNoTracking()
-                    .FirstOrDefaultAsync(t => t.Id == task.Id);
+                    .FirstOrDefaultAsync(t => t.Id == todo.Id);
 
                 if(t != null)
                 {
 
-                    Tasks newTask = new Tasks
+                    Todo newtodo = new Todo
                     {
-                        Id = task.Id,
-                        Name = task.Name,
-                        Description = task.Description,
-                        IsComplete = task.IsComplete,
-                        IdCategoria = task.IdCategoria
+                        Id = todo.Id,
+                        Name = todo.Name,
+                        Description = todo.Description,
+                        IsComplete = todo.IsComplete,
+                        IdCategoria = todo.IdCategoria
                     };
 
-                    _context.Tasks.Update(newTask);
+                    _context.Todo.Update(newtodo);
                     _context.SaveChanges();
-                    return Ok(task);
+                    return Ok(todo);
 
                 }
                 else
@@ -112,16 +112,16 @@ namespace ToDoListSqlite.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete (int idTask)
+        public async Task<IActionResult> Delete (int idtodo)
         {
             try
             {
-                var t = _context.Tasks.AsNoTracking().FirstOrDefault(t => t.Id == idTask);
+                var t = _context.Todo.AsNoTracking().FirstOrDefault(t => t.Id == idtodo);
                 if (t != null)
                 {
-                     _context.Tasks.Remove(t);
+                     _context.Todo.Remove(t);
                     _context.SaveChanges();
-                    return Ok("Task Removida");
+                    return Ok("todo Removida");
                 }
                 else
                 {

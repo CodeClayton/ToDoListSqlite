@@ -8,7 +8,7 @@ namespace ToDoListSqlite.Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
         
-        public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<Todo> Todo { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
 
         // APOS ISSO RODAR
@@ -18,7 +18,7 @@ namespace ToDoListSqlite.Data
         // HAS ONE ( BLOCO INTEIRO ) FK E DPS ON DELETE SEM CASCADE.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Tasks>()
+            modelBuilder.Entity<Todo>()
                 .HasOne(e => e.Categoria)
                 .WithMany()
                 .HasForeignKey(e => e.IdCategoria)

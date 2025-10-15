@@ -53,7 +53,7 @@ namespace ToDoListSqlite.Controllers
                 var cat = await _context.Categorias.FirstOrDefaultAsync(c => c.IdCategoria == idCategoria);
                 if(cat != null)
                 {
-                    Tasks? task = _context.Tasks.FirstOrDefault(t => t.IdCategoria == idCategoria);
+                    Todo? task = _context.Todo.FirstOrDefault(t => t.IdCategoria == idCategoria);
 
                     if(task != null)
                     {
