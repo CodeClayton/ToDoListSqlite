@@ -19,9 +19,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 //DEPOIS CRIAR TABELAS
 //RODAR COMANDO DO DBCONTEXT
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins, policy =>
+    {
+        policy.WithOrigins(
+               "http://localhost:4200",
+               "http://localhost:8080"
+            )
+            .AllowAnyMethod()   // Permite qualquer método HTTP 
+            .AllowCredentials()
+            .SetIsOriginAllowed((host) => true)
+            .AllowAnyHeader();    // Permite qualquer cabeçalho HTTP
+    });
+});
+
+
 var app = builder.Build();
-
-
 
 
 // Configure the HTTP request pipeline.
@@ -31,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

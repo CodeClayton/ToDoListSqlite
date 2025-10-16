@@ -9,7 +9,7 @@ namespace ToDoListSqlite.Controllers
     [Route("api/[controller]")]
     public class CategoriasController : Controller
     {
-        private readonly AppDbContext _context;
+        private  readonly AppDbContext _context;
         public CategoriasController(AppDbContext context)
         {
             _context = context;
